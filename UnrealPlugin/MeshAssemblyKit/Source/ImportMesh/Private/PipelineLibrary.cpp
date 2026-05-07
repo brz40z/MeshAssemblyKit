@@ -185,8 +185,18 @@ UStaticMesh* UPipelineLibrary::FindMeshInProject(const FString& MeshName)
 	// 2. Handle results
 	if (FoundAssets.Num() == 0)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Mesh '%s' not found in project."), *CleanMeshName);
-		return nullptr;
+		UE_LOG(LogTemp, Error, TEXT("Mesh '%s' not found in project. Loading fallback engine cube."), *CleanMeshName);
+
+		// Try to load the engine's default cube
+		UStaticMesh* FallbackCube = Cast<UStaticMesh>(StaticLoadObject(UStaticMesh::StaticClass(), nullptr, TEXT("/Engine/BasicShapes/Cube.Cube")));
+
+		// If for some reason the BasicShapes cube isn't there, try the very basic engine mesh
+		if (!FallbackCube)
+		{
+			FallbackCube = Cast<UStaticMesh>(StaticLoadObject(UStaticMesh::StaticClass(), nullptr, TEXT("/Engine/EngineMeshes/Cube.Cube")));
+		}
+
+		return FallbackCube;
 	}
 
 	// --- NEW: DUPLICATE WARNING LOGIC ---

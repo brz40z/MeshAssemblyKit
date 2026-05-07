@@ -10,16 +10,13 @@ struct FAssetEntry
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY()
     FString source_asset;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY()
     FString instance_id;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY()
     FString parent_name;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY()
     FTransform transform;
 };
 
@@ -28,6 +25,6 @@ struct FSceneData
 {
     GENERATED_BODY()
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY()
     TArray<FAssetEntry> assets;
 };

@@ -6,7 +6,7 @@ import os
 bl_info = {
     "name": "Unreal Assembly Kit",
     "author": "Bozhyk Yuriy",
-    "version": (1, 2, 0),
+    "version": (1, 2, 1),
     "blender": (5, 0, 0),
     "location": "View3D > Sidebar > Unreal Assembly Kit",
     "description": "Batch export to FBX, transfer instances to Unreal Engine via JSON",
@@ -106,7 +106,7 @@ class OBJECT_OT_ExportUEData(bpy.types.Operator):
             self.report({'INFO'}, f"Copied {len(assets_list)} items.")
         return {'FINISHED'}
 
-# --- 4. OPERATOR: BATCH FBX ---
+# --- 4. OPERATOR: BATCH FBX (WITH PATH VALIDATION) ---
 class OBJECT_OT_BatchExportFBX(bpy.types.Operator):
     bl_idname = "object.batch_export_fbx"
     bl_label = "Batch Export FBX"
@@ -126,11 +126,9 @@ class OBJECT_OT_BatchExportFBX(bpy.types.Operator):
             obj = self._masters[self._index]
             self._index += 1
             
-            # Update UI
             percent = int((self._index / self._total) * 100)
             context.workspace.status_text_set(f"Exporting: {percent}% | {obj.name}")
             
-            # Export Process
             orig_m = obj.matrix_world.copy()
             obj.matrix_world.identity() 
             bpy.ops.object.select_all(action='DESELECT')
@@ -149,18 +147,34 @@ class OBJECT_OT_BatchExportFBX(bpy.types.Operator):
         return {'RUNNING_MODAL'}
 
     def execute(self, context):
+        # Validation 1: Check if meshes are selected
         masters = [obj for obj in context.selected_objects if obj.type == 'MESH' and obj.get("Original") in (1, True)]
         if not masters:
             self.report({'ERROR'}, "Select tagged 'Original' meshes first!")
             return {'CANCELLED'}
-            
+
+        # Validation 2: Check if file is saved when using relative path
+        raw_path = context.scene.ue_export_path
+        if raw_path.startswith("//") and not bpy.data.is_saved:
+            self.report({'ERROR'}, "Save your Blender file before using relative export paths (//)!")
+            return {'CANCELLED'}
+
         self._masters = masters
         self._total = len(masters)
         self._index = 0
-        self._export_path = bpy.path.abspath(context.scene.ue_export_path)
+        self._export_path = bpy.path.abspath(raw_path)
         
+        # Validation 3: Ensure absolute path could be resolved
+        if not self._export_path:
+            self.report({'ERROR'}, "Could not resolve export path. Check your folder settings.")
+            return {'CANCELLED'}
+
         if not os.path.exists(self._export_path):
-            os.makedirs(self._export_path)
+            try:
+                os.makedirs(self._export_path)
+            except Exception as e:
+                self.report({'ERROR'}, f"Failed to create directory: {str(e)}")
+                return {'CANCELLED'}
 
         context.window_manager.progress_begin(0, self._total)
         self._timer = context.window_manager.event_timer_add(0.001, window=context.window)
