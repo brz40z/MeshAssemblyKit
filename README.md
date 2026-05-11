@@ -1,9 +1,16 @@
 # MeshAssemblyKit
+
+**Version**: 0.0.1
+**Blender Version**: 4.5.0 and above
+**Unreal Engine Version**: 5.4
+**Author**: Bozhyk Yuriy
+**Email**: bozheka@gmail.com
+
 Mesh Assembly Kit is a workflow utility designed to bridge between external DCCs (like Blender) and Unreal Engine.
 > NOTE: The Unreal plugin and Blender addon are designed to work together.
 ## Core Features
 1. **Batch Export:** Export multiple meshes from Blender to FBX format.
-2. **Instance Data Sync:** Copy mesh instance data (location, rotation, scale) to the clipboard for seamless transfer.
+2. **Instance Data Transfer:** Copy mesh instance data (location, rotation, scale) to the clipboard for seamless transfer.
 3. **Automatic Assembly:** Rebuild layouts in Unreal Engine by automatically matching copied instance data.
 4. **Quick Reimport:** Reimport selected meshes.
 5. **HISM Conversion:** Instantly convert selected static mesh instances into a single Actor utilizing Hierarchical Instanced Static Mesh (HISM) components for optimized performance.
@@ -13,7 +20,7 @@ Mesh Assembly Kit is a workflow utility designed to bridge between external DCCs
 # Unreal Engine Setup
 You can clone this repository with git and build it in the Unreal project from source or you can download a pre-built binary release.
 ## Cloning the repository
-Source files will need to be placed in either `{Project}/Plugins/MeshAssemblyKit/` or `{Engine}/Plugins/MeshAssemblyKit/`
+Source files will need to be placed in `{Project}/Plugins/MeshAssemblyKit/`
 ## Download Binary releases
 Download the latest binary release as a zip file and extract it in either your `{Project}/Plugins/` or `{Engine}/Plugins/` directory
 ## Enable the Plugin
@@ -22,36 +29,39 @@ Open your Unreal Engine project and click `Edit → Plugins`.
 Search for Mesh Assembly Kit and check the Enabled checkbox.
 
 Restart the editor
+
+Go to Window → Mesh Assembly Kit to open plugin window
+
 # Blender Setup
-Download the Addon `UnrealAssemblyKit.py`
+Download `unreal_assembly_kit.zip` under Releases section
 
 Open Blender. Edit → Preferences → Addons → Install from disk...
 
-Choose file `UnrealAssemblyKit.py`
+Choose file `unreal_assembly_kit.zip`
 
 In the sidebar appears a new tab `Unreal Assembly Kit`
 
 # Quick Start
 Prepare your Blender scene by ensuring you have your source meshes and their corresponding linked instances.
 
-![](https://private-user-images.githubusercontent.com/14073949/588869989-4eb81bf7-ac74-4ac4-ab5c-58a77e1a989e.gif?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzgxNTQ4MDcsIm5iZiI6MTc3ODE1NDUwNywicGF0aCI6Ii8xNDA3Mzk0OS81ODg4Njk5ODktNGViODFiZjctYWM3NC00YWM0LWFiNWMtNThhNzdlMWE5ODllLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA1MDclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNTA3VDExNDgyN1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTU5YThlOTVkNmE2MjNlYzJjY2IwNDNhZDYzZjBiYWZkZTcyMGI2YzEwODA2YjYxYmJhMDVkNmY3MjZiYTllNTQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRmdpZiJ9.jWTxNDLiQ-wXyoYf2W6in-3pj10L95a6At5Eyc0K5YM)
+https://github.com/user-attachments/assets/f047e570-a702-4936-bcff-7ab366dbacc6
 
 Select your source meshes, check the Is Original box, and press Set Selection as Master. This marks them as the parent assets for your instances. You must also mark unique meshes that have no instances to ensure they are exported correctly.
 
-![](https://private-user-images.githubusercontent.com/14073949/588869991-e0bad55e-54b6-404c-ac10-f47cedfdfeec.gif?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzgxNTUyOTcsIm5iZiI6MTc3ODE1NDk5NywicGF0aCI6Ii8xNDA3Mzk0OS81ODg4Njk5OTEtZTBiYWQ1NWUtNTRiNi00MDRjLWFjMTAtZjQ3Y2VkZmRmZWVjLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA1MDclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNTA3VDExNTYzN1omWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTZkZDdhZjI4NzhjNDVhYzIxNzE3ODdlZTM1M2RiZjZlNDBhOWNjNmE5NjdlYTU1ZWNmOTZkMzBhYWI0NTgyMWEmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRmdpZiJ9.vGBeHYSsmoQ5enOFvJY-etEcNxbNgtAB5lK7mGcX50s)
+https://github.com/user-attachments/assets/768a0e17-a117-4b59-b128-6f8e30a57d00
 
 Next, select the meshes you want to assemble in Unreal, navigate to the Instances tab and click `Copy Instances JSON` to copy the instance data to your clipboard.
 
-![](https://private-user-images.githubusercontent.com/14073949/588869992-820569b5-707d-475c-824e-115b742a9235.gif?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzgxNTU3MjgsIm5iZiI6MTc3ODE1NTQyOCwicGF0aCI6Ii8xNDA3Mzk0OS81ODg4Njk5OTItODIwNTY5YjUtNzA3ZC00NzVjLTgyNGUtMTE1Yjc0MmE5MjM1LmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA1MDclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNTA3VDEyMDM0OFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWY2OGE4NWZmNDM1NjI5ODE0MjI3NjYwZjlmN2JhNmQxM2NkZWZjOTIyZWVkNDUwZjdhMWIwZjg3M2I0OTY0ZDkmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRmdpZiJ9.LJhiJ0cth5gOyHIKZAIcMhivAzdyMd4FsAQebVGfAk8)
+https://github.com/user-attachments/assets/63ad1bfc-c707-4b2f-98e3-fafe8cdd40e2
 
 Import the exported FBX files into your Unreal Engine project. Then, press Assemble Scene; the tool will automatically spawn Static Mesh Actors in your level, applying their corresponding world transforms. It will try to find matched existing Static Meshes from your Content Browser by name.
 
-![](https://private-user-images.githubusercontent.com/14073949/588869993-511efea3-a603-47b5-bada-21d1dbdf6e05.gif?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzgxNTU3MjgsIm5iZiI6MTc3ODE1NTQyOCwicGF0aCI6Ii8xNDA3Mzk0OS81ODg4Njk5OTMtNTExZWZlYTMtYTYwMy00N2I1LWJhZGEtMjFkMWRiZGY2ZTA1LmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA1MDclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNTA3VDEyMDM0OFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWZhMTBiNmMyMzhkNDdlMTA3MmJiZjk2MDFhZTY4MjBiYzFlYTliYTI4YjU4ODMxN2Q1YjQ0YjlkYTQ3N2E5NjQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRmdpZiJ9.mHC2wcVtCgQem0O6vRMjzW3XY-0wT4oEf9tKNXMoxU4)
+https://github.com/user-attachments/assets/83deaa0f-8fc9-4075-9f03-142695c5e9a3
 
 Use Convert Selection to HISM to merge selected actors into a Hierarchical Instanced Static Mesh for improved performance and reduced draw calls. You can easily undo this process and return to individual actors using Revert HISM to Static Meshes.
 
-![](https://private-user-images.githubusercontent.com/14073949/588869990-971b58ff-f2da-48f8-b044-005609b908ef.gif?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzgxNTY0MTEsIm5iZiI6MTc3ODE1NjExMSwicGF0aCI6Ii8xNDA3Mzk0OS81ODg4Njk5OTAtOTcxYjU4ZmYtZjJkYS00OGY4LWIwNDQtMDA1NjA5YjkwOGVmLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA1MDclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNTA3VDEyMTUxMVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWIxNWY3NWNiYTk1ZWI1YjI2NjY5NDcxYzY0OWYzNThlYmYxNWEzZGU0N2VmZmY5NDU2MWVhYzllZjllZWE2ZTQmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRmdpZiJ9.o8MDS9MLbjJK1HECgOQXXozqkkmDlhix85sU3d4TZjE)
+https://github.com/user-attachments/assets/326425d9-ce67-46b2-99be-afa14d3899ff
 
 The Material Tool allows for batch material assignment by selecting your project's materials for the mesh's material slot names.
 
-![](https://private-user-images.githubusercontent.com/14073949/588869988-08d85ec2-0cea-4428-b99e-6418f96f4aee.gif?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NzgxNTY3MDUsIm5iZiI6MTc3ODE1NjQwNSwicGF0aCI6Ii8xNDA3Mzk0OS81ODg4Njk5ODgtMDhkODVlYzItMGNlYS00NDI4LWI5OWUtNjQxOGY5NmY0YWVlLmdpZj9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNjA1MDclMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjYwNTA3VDEyMjAwNVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTczMGMxODYyYzRlYmQ2YWQzNWZhOWYxYzRhMTBmOTdkMjY0Y2E2ODNiMjdkZjQ2NDcxY2Q3NzliMGFmNWY0MjUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JnJlc3BvbnNlLWNvbnRlbnQtdHlwZT1pbWFnZSUyRmdpZiJ9.hL9oHAHQuBhQCXued3C5TjWqlnZ3rIZjTHs-y5iXo3I)
+https://github.com/user-attachments/assets/c46bfddd-d4e0-4e57-b1b3-b7c181cceed2
