@@ -1,10 +1,10 @@
 # MeshAssemblyKit
 
-**Version**: 0.0.1
-**Blender Version**: 4.5.0 and above
-**Unreal Engine Version**: 5.4
-**Author**: Bozhyk Yuriy
-**Email**: bozheka@gmail.com
+**Version**: 0.0.1  
+**Blender Version**: 4.5.0 and above  
+**Unreal Engine Version**: 5.4  
+**Author**: Bozhyk Yuriy  
+**Email**: bozheka@gmail.com  
 
 Mesh Assembly Kit is a workflow utility designed to bridge between external DCCs (like Blender) and Unreal Engine.
 > NOTE: The Unreal plugin and Blender addon are designed to work together.
@@ -44,11 +44,11 @@ In the sidebar appears a new tab `Unreal Assembly Kit`
 # Quick Start
 Prepare your Blender scene by ensuring you have your source meshes and their corresponding linked instances.
 
-https://github.com/user-attachments/assets/f047e570-a702-4936-bcff-7ab366dbacc6
+https://github.com/user-attachments/assets/768a0e17-a117-4b59-b128-6f8e30a57d00
 
 Select your source meshes, check the Is Original box, and press Set Selection as Master. This marks them as the parent assets for your instances. You must also mark unique meshes that have no instances to ensure they are exported correctly.
 
-https://github.com/user-attachments/assets/768a0e17-a117-4b59-b128-6f8e30a57d00
+https://github.com/user-attachments/assets/f047e570-a702-4936-bcff-7ab366dbacc6
 
 Next, select the meshes you want to assemble in Unreal, navigate to the Instances tab and click `Copy Instances JSON` to copy the instance data to your clipboard.
 
