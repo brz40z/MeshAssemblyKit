@@ -1,13 +1,12 @@
 schema_version = "1.0.0"
 
 id = "unreal_assembly_kit"
-
 version = "1.2.1"
 name = "Unreal Assembly Kit"
-tagline = "Batch export FBX and transfer instances to Unreal Engine via JSON"
+tagline = "Batch export FBX and transfer instances to UE via JSON"
 maintainer = "Bozhyk Yuriy <bozheka@gmail.com>" 
 type = "add-on"
-license = ["GPL-2.0-or-later"]
+license = ["SPDX:GPL-3.0-or-later"]
 
 blender_version_min = "4.5.0"
 path = "import-export"
@@ -15,8 +14,8 @@ path = "import-export"
 website = "https://github.com/brz40z/MeshAssemblyKit"
 
 [permissions]
-files = "Required to export FBX files and create export directories."
-clipboard = "Required to copy instance data for Unreal Engine."
+files = "Required to export FBX files and create export directories"
+clipboard = "Required to copy instance data for Unreal Engine"
 
 [build]
 exclude = [

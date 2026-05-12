@@ -1,4 +1,4 @@
-# MeshAssemblyKit
+# Mesh Assembly Kit
 
 **Version**: 0.0.1  
 **Blender Version**: 4.5.0 and above  
@@ -35,7 +35,7 @@ Go to Window → Mesh Assembly Kit to open plugin window
 # Blender Setup
 Download `unreal_assembly_kit.zip` under Releases section
 
-Open Blender. Edit → Preferences → Addons → Install from disk...
+Open Blender. Edit → Preferences → Get Extensions → Install from disk...
 
 Choose file `unreal_assembly_kit.zip`
 
